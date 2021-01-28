@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Catan
 {
-    class HexagonalCoordinate
+    public class HexagonalCoordinate
     {
         public int x { get; private set; }
         public int y { get; private set; }
@@ -11,26 +11,44 @@ namespace Catan
 
         public HexagonalCoordinate(int _x, int _y, int _z)
         {
+            if (_x + _y + _z != 0)
+            {
+                throw new ArithmeticException();
+            }
+
             this.x = _x;
             this.y = _y;
             this.z = _z;
         }
 
-        public List<HexagonalCoordinate> getNeighbors()
+        public ISet<HexagonalCoordinate> getNeighbors()
         {
-            return new List<HexagonalCoordinate> {
-                new HexagonalCoordinate(x-1, y, z),
-                new HexagonalCoordinate(x+1, y, z),
-                new HexagonalCoordinate(x, y-1, z),
-                new HexagonalCoordinate(x, y+1, z),
-                new HexagonalCoordinate(x, y, z-1),
-                new HexagonalCoordinate(x, y, z+1)
+            return new HashSet<HexagonalCoordinate> {
+                new HexagonalCoordinate(x-1, y, z+1),
+                new HexagonalCoordinate(x+1, y, z-1),
+                new HexagonalCoordinate(x, y-1, z+1),
+                new HexagonalCoordinate(x, y+1, z-1),
+                new HexagonalCoordinate(x-1, y+1, z),
+                new HexagonalCoordinate(x+1, y-1, z)
             };
         }
 
         public bool isOrigin()
         {
             return x == 0 && y == 0 && z == 0;
+        }
+
+        public override bool Equals(object obj)
+        {
+            return obj is HexagonalCoordinate coordinate &&
+                   x == coordinate.x &&
+                   y == coordinate.y &&
+                   z == coordinate.z;
+        }
+
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(x, y, z);
         }
     }
 }
