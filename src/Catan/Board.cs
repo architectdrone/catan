@@ -5,13 +5,17 @@ namespace Catan
     public class Board
     {
         const int SIZE = 2;
-        Tile[] boardState;
+        Tile?[] boardState;
         public Board()
         {
 
 
             int numberOfTiles = tilesInBoard(SIZE);
-            boardState = new Tile[numberOfTiles];
+            boardState = new Tile?[numberOfTiles];
+            for (int i = 0; i < numberOfTiles; i++)
+            {
+                boardState[i] = null;
+            }
         }
 
         /**
@@ -28,7 +32,7 @@ namespace Catan
             //Therefore, the number of tiles on a given ring is given by 6*x (x != 0), where x is the ring number
             //Using this, we can calculate the number of tiles in a board of a given size:
             //Board 0 = 1 = 1
-            //Board 1 = 6*1 + 1 = 6 + 1 = 7
+            //Board 1 = 6*1 + 1 = 7
             //Board 2 = 6*2 + 6*1 + 1 = 19
             //Board 3 = 6*3 + 6*2 + 6*1 + 1 = ...
             //With a little bit of algebra we arrive at (6*(((n)(n+1))/2))+1, where "n" is the size of the board.
@@ -203,7 +207,7 @@ namespace Catan
             boardState[getIndex(coord)] = tile;
         }
 
-        public Tile getTile(HexagonalCoordinate coord)
+        public Tile? getTile(HexagonalCoordinate coord)
         {
             if (!isOnBoard(coord))
             {
@@ -215,9 +219,9 @@ namespace Catan
         /**
         * Returns true if the given coordinates exist on the board.
         */
-        public bool isOnBoard(HexagonalCoordinate coordinate)
+        public static bool isOnBoard(HexagonalCoordinate coordinate)
         {
-            return (coordinate.x <= SIZE && coordinate.y <= SIZE && coordinate.z <= SIZE);
+            return (Math.Abs(coordinate.x) <= SIZE && Math.Abs(coordinate.y) <= SIZE && Math.Abs(coordinate.z) <= SIZE);
         }
     }
 
