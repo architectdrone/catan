@@ -194,16 +194,34 @@ namespace Catan
             return result;
         }
 
+        public void setTile(HexagonalCoordinate coord, Tile tile)
+        {
+            if (!isOnBoard(coord))
+            {
+                throw new ArithmeticException();
+            }
+            boardState[getIndex(coord)] = tile;
+        }
+
+        public Tile getTile(HexagonalCoordinate coord)
+        {
+            if (!isOnBoard(coord))
+            {
+                throw new ArithmeticException();
+            }
+            return boardState[getIndex(coord)];
+        }
+
         /**
         * Returns true if the given coordinates exist on the board.
         */
         public bool isOnBoard(HexagonalCoordinate coordinate)
         {
-            return (coordinate.x <= 2 && coordinate.y <= 2 && coordinate.z <= 2);
+            return (coordinate.x <= SIZE && coordinate.y <= SIZE && coordinate.z <= SIZE);
         }
     }
 
-    enum Tile
+    public enum Tile
     {
         WOOD,
         STONE,
