@@ -231,6 +231,16 @@ namespace Catan
             return toReturn;
         }
 
+        public Board copy()
+        {
+            Board toReturn = new Board();
+            for (int i = 0; i < Board.tilesInBoard(SIZE); i++)
+            {
+                toReturn.boardState[i] = boardState[i];
+            }
+            return toReturn;
+        }
+
         /*
          * Get the coordinates in a board of the given size.
          */
@@ -248,7 +258,7 @@ namespace Catan
             }
         }
 
-        public void setTile(HexagonalCoordinate coord, Tile tile)
+        public void setTile(HexagonalCoordinate coord, Tile? tile)
         {
             if (!isOnBoard(coord))
             {
