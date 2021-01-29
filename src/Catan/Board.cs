@@ -198,6 +198,56 @@ namespace Catan
             return result;
         }
 
+        public static ISet<HexagonalCoordinate> getCoordinatesInRing(int ringNumber)
+        {
+            if (ringNumber == 0)
+            {
+                return new HashSet<HexagonalCoordinate> { new HexagonalCoordinate(0,0,0)};
+            }
+            HashSet<HexagonalCoordinate> toReturn = new HashSet<HexagonalCoordinate>();
+
+            //Add the six axes
+            toReturn.Add(new HexagonalCoordinate(ringNumber, 0, -1 * ringNumber));
+            toReturn.Add(new HexagonalCoordinate(-1*ringNumber, 0, ringNumber));
+            toReturn.Add(new HexagonalCoordinate(ringNumber, -1 * ringNumber, 0));
+            toReturn.Add(new HexagonalCoordinate(-1 * ringNumber, ringNumber, 0));
+            toReturn.Add(new HexagonalCoordinate(0, ringNumber, -1 * ringNumber));
+            toReturn.Add(new HexagonalCoordinate(0, -1 * ringNumber, ringNumber));
+
+            //Add elements from the six slices
+            for (int a = 1; a <= ringNumber; a++)
+            {
+                //Other Coordinate
+                int b = ringNumber - a;
+
+                toReturn.Add(new HexagonalCoordinate(ringNumber, -1 * a, -1 * b));
+                toReturn.Add(new HexagonalCoordinate(a, b, -1 * ringNumber));
+                toReturn.Add(new HexagonalCoordinate(-1 * b, ringNumber, -1 * a));
+                toReturn.Add(new HexagonalCoordinate(-1*ringNumber, a, b));
+                toReturn.Add(new HexagonalCoordinate(-1*a, -1 * b, ringNumber));
+                toReturn.Add(new HexagonalCoordinate(b, -1 * ringNumber, a));
+            }
+
+            return toReturn;
+        }
+
+        /*
+         * Get the coordinates in a board of the given size.
+         */
+        public static ISet<HexagonalCoordinate> getCoordinatesInBoard(int size)
+        {
+            if (size == 0)
+            {
+                return getCoordinatesInRing(0);
+            }
+            else
+            {
+                ISet<HexagonalCoordinate> inBoard = getCoordinatesInBoard(size - 1);
+                inBoard.UnionWith(getCoordinatesInRing(size));
+                return inBoard;
+            }
+        }
+
         public void setTile(HexagonalCoordinate coord, Tile tile)
         {
             if (!isOnBoard(coord))

@@ -70,6 +70,60 @@ namespace Catan.Tests
             Assert.Equal(Tile.CLAY, board.getTile(new HexagonalCoordinate(x, y, z)));
         }
 
+        [Theory]
+        [InlineData(0, 0, 0, 0)]
+        [InlineData(1, -1, 0, 1)]
+        [InlineData(1, 0, -1, 1)]
+        [InlineData(0, 1, -1, 1)]
+        [InlineData(-1, 1, 0, 1)]
+        [InlineData(-1, 0, 1, 1)]
+        [InlineData(0, -1, 1, 1)]
+        [InlineData(2, -2, 0, 2)]
+        [InlineData(2, -1, -1, 2)]
+        [InlineData(2, 0, -2, 2)]
+        [InlineData(1, 1, -2, 2)]
+        [InlineData(0, 2, -2, 2)]
+        [InlineData(-1, 2, -1, 2)]
+        [InlineData(-2, 2, 0, 2)]
+        [InlineData(-2, 1, 1, 2)]
+        [InlineData(-2, 0, 2, 2)]
+        [InlineData(-1, -1, 2, 2)]
+        [InlineData(0, -2, 2, 2)]
+        [InlineData(1, -2, 1, 2)]
+        public void coordinatesInRingWorks(int x, int y, int z, int ringNumber)
+        {
+            ISet<HexagonalCoordinate> coordinatesInRing = Board.getCoordinatesInRing(ringNumber);
+            Assert.Equal(ringNumber != 0 ? 6 * ringNumber : 1, coordinatesInRing.Count);
+            Assert.Contains(new HexagonalCoordinate(x, y, z), coordinatesInRing);
+        }
+
+        [Theory]
+        [InlineData(0, 0, 0, 2)]
+        [InlineData(1, -1, 0, 2)]
+        [InlineData(1, 0, -1, 2)]
+        [InlineData(0, 1, -1, 2)]
+        [InlineData(-1, 1, 0, 2)]
+        [InlineData(-1, 0, 1, 2)]
+        [InlineData(0, -1, 1, 2)]
+        [InlineData(2, -2, 0, 2)]
+        [InlineData(2, -1, -1, 2)]
+        [InlineData(2, 0, -2, 2)]
+        [InlineData(1, 1, -2, 2)]
+        [InlineData(0, 2, -2, 2)]
+        [InlineData(-1, 2, -1, 2)]
+        [InlineData(-2, 2, 0, 2)]
+        [InlineData(-2, 1, 1, 2)]
+        [InlineData(-2, 0, 2, 2)]
+        [InlineData(-1, -1, 2, 2)]
+        [InlineData(0, -2, 2, 2)]
+        [InlineData(1, -2, 1, 2)]
+        public void coordinatesInBoardWorks(int x, int y, int z, int boardSize)
+        {
+            ISet<HexagonalCoordinate> coordinatesInBoard = Board.getCoordinatesInBoard(boardSize);
+            Assert.Equal(Board.tilesInBoard(boardSize), coordinatesInBoard.Count);
+            Assert.Contains(new HexagonalCoordinate(x, y, z), coordinatesInBoard);
+        }
+
         [Fact]
         public void settingATileOffOfTheBoardDoesntWork()
         {
