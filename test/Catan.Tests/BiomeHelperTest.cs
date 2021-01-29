@@ -22,7 +22,39 @@ namespace Catan.Tests
             {
                 Board board = new Board();
                 board.setTile(new HexagonalCoordinate(x, y, z), Tile.CLAY);
+                foreach (var neighbor in new HexagonalCoordinate(x, y, z).getNeighbors())
+                {
+                    if (Board.isOnBoard(neighbor))
+                    {
+                        board.setTile(neighbor, Tile.WOOD);
+                    }
+                }
                 board.setTile(new HexagonalCoordinate(ox, oy, oz), Tile.CLAY);
+                Assert.True(BiomeHelper.evaluateCoordinate(board, new HexagonalCoordinate(x, y, z)));
+            }
+
+            [Theory]
+            [InlineData(0, 0, 0, 1, 0, -1)]
+            [InlineData(0, 0, 0, -1, 0, 1)]
+            [InlineData(0, 0, 0, 0, 1, -1)]
+            [InlineData(0, 0, 0, 0, -1, 1)]
+            [InlineData(0, 0, 0, 1, -1, 0)]
+            [InlineData(0, 0, 0, -1, 1, 0)]
+            [InlineData(2, 0, -2, 1, 0, -1)]
+            [InlineData(2, 0, -2, 2, -1, -1)]
+            [InlineData(2, 0, -2, 1, 1, -2)]
+            public void returnsTrueIfHasOneNullSurrounding(int x, int y, int z, int ox, int oy, int oz)
+            {
+                Board board = new Board();
+                board.setTile(new HexagonalCoordinate(x, y, z), Tile.CLAY);
+                foreach (var neighbor in new HexagonalCoordinate(x, y, z).getNeighbors())
+                {
+                    if (Board.isOnBoard(neighbor))
+                    {
+                        board.setTile(neighbor, Tile.WOOD);
+                    }
+                }
+                board.setTile(new HexagonalCoordinate(ox, oy, oz), null);
                 Assert.True(BiomeHelper.evaluateCoordinate(board, new HexagonalCoordinate(x, y, z)));
             }
         }

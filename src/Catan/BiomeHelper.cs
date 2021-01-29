@@ -33,7 +33,7 @@ namespace Catan
                 }
             }
 
-			return neighborTiles.Contains(current);
+			return neighborTiles.Contains(current) || neighborTiles.Contains(null);
         }
 	}
 }
