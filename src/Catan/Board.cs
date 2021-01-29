@@ -283,6 +283,46 @@ namespace Catan
         {
             return (Math.Abs(coordinate.x) <= SIZE && Math.Abs(coordinate.y) <= SIZE && Math.Abs(coordinate.z) <= SIZE);
         }
+
+        public void print()
+        {
+            char _1 = tileToChar(getTile(new HexagonalCoordinate(0, 2, -2)));
+            char _2 = tileToChar(getTile(new HexagonalCoordinate(1,1, -2)));
+            char _3 = tileToChar(getTile(new HexagonalCoordinate(2,0, -2)));
+            char _4 = tileToChar(getTile(new HexagonalCoordinate(-1, 2, -1)));
+            char _5 = tileToChar(getTile(new HexagonalCoordinate(0,1,-1)));
+            char _6 = tileToChar(getTile(new HexagonalCoordinate(1,0,-1)));
+            char _7 = tileToChar(getTile(new HexagonalCoordinate(2,-1,-1)));
+            char _8 = tileToChar(getTile(new HexagonalCoordinate(-2,2,0)));
+            char _9 = tileToChar(getTile(new HexagonalCoordinate(-1,1,0)));
+            char _10 = tileToChar(getTile(new HexagonalCoordinate(0,0,0)));
+            char _11 = tileToChar(getTile(new HexagonalCoordinate(1, -1, 0)));
+            char _12 = tileToChar(getTile(new HexagonalCoordinate(2, -2, 0)));
+            char _13 = tileToChar(getTile(new HexagonalCoordinate(-2, 1, 1)));
+            char _14 = tileToChar(getTile(new HexagonalCoordinate(-1, 1, 0)));
+            char _15 = tileToChar(getTile(new HexagonalCoordinate(0, -1, 1)));
+            char _16 = tileToChar(getTile(new HexagonalCoordinate(1, -2, 1)));
+            char _17 = tileToChar(getTile(new HexagonalCoordinate(-2, 0, 2)));
+            char _18 = tileToChar(getTile(new HexagonalCoordinate(-1, -1, 2)));
+            char _19 = tileToChar(getTile(new HexagonalCoordinate(0, -2, 2)));
+
+            Console.WriteLine($"  {_1} {_2} {_3}");
+            Console.WriteLine($" {_4} {_5} {_6} {_7}");
+            Console.WriteLine($"{_8} {_9} {_10} {_11} {_12}");
+            Console.WriteLine($" {_13} {_14} {_15} {_16}");
+            Console.WriteLine($"  {_17} {_18} {_19}");
+        }
+
+        private static char tileToChar(Tile? tile)
+        {
+            if (tile == null) return '?';
+            else if (tile == Tile.CLAY) return 'c';
+            else if (tile == Tile.WOOD) return 'l';
+            else if (tile == Tile.SHEEP) return 'w';
+            else if (tile == Tile.STONE) return 'o';
+            else if (tile == Tile.WHEAT) return 'g';
+            else return 'd';
+        }
     }
 
     public enum Tile

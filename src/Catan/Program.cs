@@ -13,6 +13,12 @@ namespace Catan
             Board board = new Board();
             ISet<Board> results = BiomeHelper.getBiomeConfigurationsRecursive(hexagonalCoordinates, tileCounts, board);
             Console.WriteLine($"Found {results.Count} configurations.");
+
+            foreach (var completeBoard in results)
+            {
+                Console.WriteLine("------------------------------------------");
+                completeBoard.print();
+            }
         }
     }
 
