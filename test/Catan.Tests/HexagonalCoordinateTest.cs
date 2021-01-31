@@ -31,7 +31,7 @@ namespace Catan.Tests
             Assert.Contains(new HexagonalCoordinate(0, 0, 0), coordinate.getNeighbors());
             Assert.Contains(new HexagonalCoordinate(1, 0, -1), coordinate.getNeighbors());
             Assert.Contains(new HexagonalCoordinate(1, 1, -2), coordinate.getNeighbors());
-            Assert.Equal(coordinate.getNeighbors().Count, 6);
+            Assert.Equal(6, coordinate.getNeighbors().Count);
         }
     }
 }
