@@ -22,6 +22,10 @@ namespace Catan
             {
 				return true;
             }
+			else if (board.isOkay(coord))
+            {
+				return true;
+            }
 
 			foreach (HexagonalCoordinate neighborCoord in coord.getNeighbors())
 			{
@@ -29,7 +33,12 @@ namespace Catan
                 {
 					Tile? tile = board.getTile(neighborCoord);
 					if (tile == null) return true;
-					else if (tile == current) return true;
+					else if (tile == current)
+					{
+						board.markOkay(neighborCoord);
+						return true;
+					}
+					
                 }
             }
 
@@ -38,6 +47,11 @@ namespace Catan
 
 		public static bool evaluateNeighboringCoordinates(Board board, HexagonalCoordinate coord)
         {
+			if (!evaluateCoordinate(board, coord))
+            {
+				return false;
+            }
+
             foreach (var neighboringCoord in coord.getNeighbors())
             {
 				if (Board.isOnBoard(neighboringCoord))
@@ -48,7 +62,7 @@ namespace Catan
                     }
                 }
             }
-			return evaluateCoordinate(board, coord);
+			return true;
         }
 
 		private static Board? getNextValidState(Tile tile, HexagonalCoordinate coord, Board currentState)
