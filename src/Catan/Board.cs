@@ -6,15 +6,18 @@ namespace Catan
     {
         const int SIZE = 2;
         Tile?[] boardState;
+        bool[] isTileOkay; //indicates whether the tile is proven to be okay. True mean yes, False mean IDK.
         public Board()
         {
 
 
             int numberOfTiles = tilesInBoard(SIZE);
             boardState = new Tile?[numberOfTiles];
+            isTileOkay = new bool[numberOfTiles];
             for (int i = 0; i < numberOfTiles; i++)
             {
                 boardState[i] = null;
+                isTileOkay[i] = false;
             }
         }
 
@@ -22,9 +25,11 @@ namespace Catan
         {
             int numberOfTiles = tilesInBoard(SIZE);
             boardState = new Tile?[numberOfTiles];
+            isTileOkay = new bool[numberOfTiles];
             for (int i = 0; i < numberOfTiles; i++)
             {
                 boardState[i] = oldBoard.boardState[i];
+                isTileOkay[i] = oldBoard.isTileOkay[i];
             }
         }
 
@@ -265,6 +270,16 @@ namespace Catan
                 throw new ArithmeticException();
             }
             boardState[getIndex(coord)] = tile;
+        }
+
+        public void markOkay(HexagonalCoordinate coord)
+        {
+            isTileOkay[getIndex(coord)] = true;
+        }
+
+        public bool isOkay(HexagonalCoordinate coord)
+        {
+            return isTileOkay[getIndex(coord)];
         }
 
         public Tile? getTile(HexagonalCoordinate coord)
