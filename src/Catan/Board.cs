@@ -18,6 +18,16 @@ namespace Catan
             }
         }
 
+        public Board(Board oldBoard)
+        {
+            int numberOfTiles = tilesInBoard(SIZE);
+            boardState = new Tile?[numberOfTiles];
+            for (int i = 0; i < numberOfTiles; i++)
+            {
+                boardState[i] = oldBoard.boardState[i];
+            }
+        }
+
         /**
         * Returns the number of tiles in a board of the given size.
         */
@@ -228,16 +238,6 @@ namespace Catan
                 toReturn.Add(new HexagonalCoordinate(b, -1 * ringNumber, a));
             }
 
-            return toReturn;
-        }
-
-        public Board copy()
-        {
-            Board toReturn = new Board();
-            for (int i = 0; i < Board.tilesInBoard(SIZE); i++)
-            {
-                toReturn.boardState[i] = boardState[i];
-            }
             return toReturn;
         }
 

@@ -53,7 +53,7 @@ namespace Catan
 
 		private static Board? getNextValidState(Tile tile, HexagonalCoordinate coord, Board currentState)
         {
-			Board nextState = currentState.copy();
+			Board nextState = new Board(currentState);
 			nextState.setTile(coord, tile);
 			if (evaluateNeighboringCoordinates(nextState, coord))
 			{
