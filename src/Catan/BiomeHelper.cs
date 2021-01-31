@@ -23,17 +23,17 @@ namespace Catan
 				return true;
             }
 
-			List<Tile?> neighborTiles = new List<Tile?>();
-
 			foreach (HexagonalCoordinate neighborCoord in coord.getNeighbors())
 			{
 				if (Board.isOnBoard(neighborCoord))
                 {
-					neighborTiles.Add(board.getTile(neighborCoord));
+					Tile? tile = board.getTile(neighborCoord);
+					if (tile == null) return true;
+					else if (tile == current) return true;
                 }
             }
 
-			return neighborTiles.Contains(current) || neighborTiles.Contains(null);
+			return false;
         }
 
 		public static bool evaluateNeighboringCoordinates(Board board, HexagonalCoordinate coord)
@@ -69,7 +69,6 @@ namespace Catan
         {
 			if (coordinates.Count == 0)
             {
-                Console.WriteLine("Found One!");
 				return new HashSet<Board> { currentState };
             }
 
