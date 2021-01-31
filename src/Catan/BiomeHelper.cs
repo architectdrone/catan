@@ -69,6 +69,7 @@ namespace Catan
         {
 			if (coordinates.Count == 0)
             {
+                Console.WriteLine("Found One!");
 				return new HashSet<Board> { currentState };
             }
 
@@ -79,7 +80,7 @@ namespace Catan
 				Board? nextState = getNextValidState(Tile.CLAY, nextCoordinate, currentState);
 				if (nextState != null)
                 {
-					toReturn.UnionWith(getBiomeConfigurationsRecursive(coordinates, tileCounts.removeClay(), nextState));
+					toReturn.UnionWith(getBiomeConfigurationsRecursive(new Stack<HexagonalCoordinate>(coordinates), tileCounts.removeClay(), nextState));
                 }
             }
 			if (tileCounts.wood > 0)
@@ -87,7 +88,7 @@ namespace Catan
 				Board? nextState = getNextValidState(Tile.WOOD, nextCoordinate, currentState);
 				if (nextState != null)
 				{
-					toReturn.UnionWith(getBiomeConfigurationsRecursive(coordinates, tileCounts.removeWood(), nextState));
+					toReturn.UnionWith(getBiomeConfigurationsRecursive(new Stack<HexagonalCoordinate>(coordinates), tileCounts.removeWood(), nextState));
 				}
 			}
 			if (tileCounts.wheat > 0)
@@ -95,7 +96,7 @@ namespace Catan
 				Board? nextState = getNextValidState(Tile.WHEAT, nextCoordinate, currentState);
 				if (nextState != null)
 				{
-					toReturn.UnionWith(getBiomeConfigurationsRecursive(coordinates, tileCounts.removeWheat(), nextState));
+					toReturn.UnionWith(getBiomeConfigurationsRecursive(new Stack<HexagonalCoordinate>(coordinates), tileCounts.removeWheat(), nextState));
 				}
 			}
 			if (tileCounts.sheep > 0)
@@ -103,7 +104,7 @@ namespace Catan
 				Board? nextState = getNextValidState(Tile.SHEEP, nextCoordinate, currentState);
 				if (nextState != null)
 				{
-					toReturn.UnionWith(getBiomeConfigurationsRecursive(coordinates, tileCounts.removeSheep(), nextState));
+					toReturn.UnionWith(getBiomeConfigurationsRecursive(new Stack<HexagonalCoordinate>(coordinates), tileCounts.removeSheep(), nextState));
 				}
 			}
 			if (tileCounts.stone > 0)
@@ -111,7 +112,7 @@ namespace Catan
 				Board? nextState = getNextValidState(Tile.STONE, nextCoordinate, currentState);
 				if (nextState != null)
 				{
-					toReturn.UnionWith(getBiomeConfigurationsRecursive(coordinates, tileCounts.removeStone(), nextState));
+					toReturn.UnionWith(getBiomeConfigurationsRecursive(new Stack<HexagonalCoordinate>(coordinates), tileCounts.removeStone(), nextState));
 				}
 			}
 			if (tileCounts.desert > 0)
@@ -119,7 +120,7 @@ namespace Catan
 				Board? nextState = getNextValidState(Tile.DESERT, nextCoordinate, currentState);
 				if (nextState != null)
 				{
-					toReturn.UnionWith(getBiomeConfigurationsRecursive(coordinates, tileCounts.removeDesert(), nextState));
+					toReturn.UnionWith(getBiomeConfigurationsRecursive(new Stack<HexagonalCoordinate>(coordinates), tileCounts.removeDesert(), nextState));
 				}
 			}
 
