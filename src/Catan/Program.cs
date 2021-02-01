@@ -7,18 +7,15 @@ namespace Catan
     {
         static void Main(string[] args)
         {
+            var watch = new System.Diagnostics.Stopwatch();
             Console.WriteLine("Hello World!");
-            Stack<HexagonalCoordinate> hexagonalCoordinates = new Stack<HexagonalCoordinate>(Board.getCoordinatesInBoard(2));
+            Stack<HexagonalCoordinate> hexagonalCoordinates = new Stack<HexagonalCoordinate>(Board.getCoordinatesInBoard(Board.SIZE));
             TileCounts tileCounts = new TileCounts(3, 4, 3, 4, 4, 1);
             Board board = new Board();
-            ISet<Board> results = BiomeHelper.getBiomeConfigurationsRecursive(hexagonalCoordinates, tileCounts, board);
-            Console.WriteLine($"Found {results.Count} configurations.");
-
-            foreach (var completeBoard in results)
-            {
-                Console.WriteLine("------------------------------------------");
-                completeBoard.print();
-            }
+            watch.Start();
+            List<Board> results = BiomeHelper.getBiomeConfigurationsRecursive(hexagonalCoordinates, tileCounts, board);
+            watch.Stop();
+            Console.WriteLine($"Found {results.Count} configurations in {watch.Elapsed.TotalSeconds}s.");
         }
     }
 

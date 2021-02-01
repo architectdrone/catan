@@ -21,9 +21,9 @@ namespace Catan
             this.z = _z;
         }
 
-        public ISet<HexagonalCoordinate> getNeighbors()
+        public HexagonalCoordinate[] getNeighbors()
         {
-            return new HashSet<HexagonalCoordinate> {
+            return new HexagonalCoordinate[] {
                 new HexagonalCoordinate(x-1, y, z+1),
                 new HexagonalCoordinate(x+1, y, z-1),
                 new HexagonalCoordinate(x, y-1, z+1),
