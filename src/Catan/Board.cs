@@ -4,13 +4,11 @@ namespace Catan
 {
     public class Board
     {
-        const int SIZE = 2;
+        public const int SIZE = 2;
         Tile?[] boardState;
         bool[] isTileOkay; //indicates whether the tile is proven to be okay. True mean yes, False mean IDK.
         public Board()
         {
-
-
             int numberOfTiles = tilesInBoard(SIZE);
             boardState = new Tile?[numberOfTiles];
             isTileOkay = new bool[numberOfTiles];
@@ -211,6 +209,100 @@ namespace Catan
             }
             int result = ringOffset + tilesToNextAxis + (axialDistance * ringNumber);
             return result;
+        }
+
+        /*
+         * Returns the ring that the given index sits in.
+         */
+        public static int indexToRing(int index)
+        {
+            if (index == 0)
+            {
+                return 0;
+            }
+            else
+            {
+                return (int)Math.Floor((3 + Math.Sqrt((12 * index) - 3)) / 6);
+            }
+        }
+
+        /**
+         * Converts an index to a hexagonal coordinate. Yes, this is the inverse of getIndex
+         */
+        public static HexagonalCoordinate indexToCoordinate(int index)
+        {
+            if (index == 0)
+            {
+                return new HexagonalCoordinate(0, 0, 0);
+            }
+
+            //Get the ring that the index resides on.
+            int ring = indexToRing(index);
+
+            //Then, the number of tiles in the board before that ring.
+            int tiles = tilesInBoard(ring - 1);
+            int tilesInRing = 6 * ring; //briefly explained in the ring function
+            int sliceSize = ring - 1; //Distance between axes. 
+
+            //Using these two together, we can calculate the offset from the center axis.
+            int ringOffset = index - tiles;
+
+            //Handle the case where we are on an axis.
+            if (ringOffset % (sliceSize+1) == 0)
+            {
+                switch (ringOffset / (sliceSize+1))
+                {
+                    case 0:return new HexagonalCoordinate(ring, -ring, 0);
+                    case 1:return new HexagonalCoordinate(ring, 0, -ring);
+                    case 2:return new HexagonalCoordinate(0, ring, -ring);
+                    case 3:return new HexagonalCoordinate(-ring, ring, 0);
+                    case 4:return new HexagonalCoordinate(-ring, 0, ring);
+                    case 5:return new HexagonalCoordinate(0, -ring, ring);
+                    default: throw new ArithmeticException();
+                }
+            }
+
+            //Since we are not on an axis, we are on a slice. Use the observations from getIndex to complete...
+            int pos_x = 0;
+            int pos_y = 1 * (sliceSize + 1);
+            int pos_z = 2 * (sliceSize + 1);
+            int neg_x = 3 * (sliceSize + 1);
+            int neg_y = 4 * (sliceSize + 1);
+            int neg_z = 5 * (sliceSize + 1);
+
+            int sliceOffset = ringOffset % (sliceSize + 1);
+            int thirdCoordinate = ring - sliceOffset;
+
+            if ((pos_x < ringOffset) && (ringOffset < pos_y))
+            {
+                //between +x and +y
+                return new HexagonalCoordinate(ring, -(thirdCoordinate), -sliceOffset);
+            }
+            if ((pos_y < ringOffset) && (ringOffset < pos_z))
+            {
+                //between +y and +z
+                return new HexagonalCoordinate((thirdCoordinate), sliceOffset, -ring);
+            }
+            if ((pos_z < ringOffset) && (ringOffset < neg_x))
+            {
+                //between +z and -x
+                return new HexagonalCoordinate(-sliceOffset, ring, -(thirdCoordinate));
+            }
+            if ((neg_x < ringOffset) && (ringOffset < neg_y))
+            {
+                //between -x and -y
+                return new HexagonalCoordinate(-ring, (thirdCoordinate), sliceOffset);
+            }
+            if ((neg_y < ringOffset) && (ringOffset < neg_z))
+            {
+                //between -y and -z
+                return new HexagonalCoordinate(-(thirdCoordinate), -sliceOffset, ring);
+            }
+            else
+            {
+                //between -z and +x
+                return new HexagonalCoordinate(sliceOffset, -ring, (thirdCoordinate));
+            }
         }
 
         public static ISet<HexagonalCoordinate> getCoordinatesInRing(int ringNumber)

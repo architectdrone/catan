@@ -90,6 +90,59 @@ namespace Catan.Tests
         [InlineData(-1, -1, 2, 2)]
         [InlineData(0, -2, 2, 2)]
         [InlineData(1, -2, 1, 2)]
+        public void indexToRingWorks(int x, int y, int z, int correctRingNumber)
+        {
+            int index = Board.getIndex(new HexagonalCoordinate(x, y, z));
+            Assert.Equal(correctRingNumber, Board.indexToRing(index));
+        }
+
+        [Theory]
+        [InlineData(0, 0, 0)]
+        [InlineData(1, -1, 0)]
+        [InlineData(1, 0, -1)]
+        [InlineData(0, 1, -1)]
+        [InlineData(-1, 1, 0)]
+        [InlineData(-1, 0, 1)]
+        [InlineData(0, -1, 1)]
+        [InlineData(2, -2, 0)]
+        [InlineData(2, -1, -1)]
+        [InlineData(2, 0, -2)]
+        [InlineData(1, 1, -2)]
+        [InlineData(0, 2, -2)]
+        [InlineData(-1, 2, -1)]
+        [InlineData(-2, 2, 0)]
+        [InlineData(-2, 1, 1)]
+        [InlineData(-2, 0, 2)]
+        [InlineData(-1, -1, 2)]
+        [InlineData(0, -2, 2)]
+        [InlineData(1, -2, 1)]
+        public void indexToHexCoordWorks(int x, int y, int z)
+        {
+            var coord = new HexagonalCoordinate(x, y, z);
+            int index = Board.getIndex(coord);
+            Assert.Equal(coord, Board.indexToCoordinate(index));
+        }
+
+        [Theory]
+        [InlineData(0, 0, 0, 0)]
+        [InlineData(1, -1, 0, 1)]
+        [InlineData(1, 0, -1, 1)]
+        [InlineData(0, 1, -1, 1)]
+        [InlineData(-1, 1, 0, 1)]
+        [InlineData(-1, 0, 1, 1)]
+        [InlineData(0, -1, 1, 1)]
+        [InlineData(2, -2, 0, 2)]
+        [InlineData(2, -1, -1, 2)]
+        [InlineData(2, 0, -2, 2)]
+        [InlineData(1, 1, -2, 2)]
+        [InlineData(0, 2, -2, 2)]
+        [InlineData(-1, 2, -1, 2)]
+        [InlineData(-2, 2, 0, 2)]
+        [InlineData(-2, 1, 1, 2)]
+        [InlineData(-2, 0, 2, 2)]
+        [InlineData(-1, -1, 2, 2)]
+        [InlineData(0, -2, 2, 2)]
+        [InlineData(1, -2, 1, 2)]
         public void coordinatesInRingWorks(int x, int y, int z, int ringNumber)
         {
             ISet<HexagonalCoordinate> coordinatesInRing = Board.getCoordinatesInRing(ringNumber);
