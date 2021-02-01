@@ -13,11 +13,10 @@ namespace Catan
             TileCounts tileCounts = new TileCounts(3, 4, 3, 4, 4, 1);
             Board board = new Board();
             watch.Start();
-            List<Board> results = BiomeHelper.getBiomeConfigurationsRecursive(hexagonalCoordinates, tileCounts, board);
+            //List<Board> results = BiomeHelper.getBiomeConfigurationsRecursive(hexagonalCoordinates, tileCounts, board);
+            List<Board> results = BiomeHelper.getBiomeConfigurationsRecursive(0, Board.tilesInBoard(Board.SIZE), tileCounts, board);
             watch.Stop();
             Console.WriteLine($"Found {results.Count} configurations in {watch.Elapsed.TotalSeconds}s.");
         }
     }
-
-
 }

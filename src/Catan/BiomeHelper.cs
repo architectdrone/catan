@@ -139,6 +139,67 @@ namespace Catan
 
 			return toReturn;
 		}
+
+		public static List<Board> getBiomeConfigurationsRecursive(int currentIndex, int maxIndex, TileCounts tileCounts, Board currentState)
+		{
+			if (currentIndex == maxIndex)
+			{
+				return new List<Board> { currentState };
+			}
+
+			List<Board> toReturn = new List<Board>();
+			HexagonalCoordinate nextCoordinate = Board.indexToCoordinate(currentIndex);
+			if (tileCounts.clay > 0)
+			{
+				Board? nextState = getNextValidState(Tile.CLAY, nextCoordinate, currentState);
+				if (nextState != null)
+				{
+					toReturn.AddRange(getBiomeConfigurationsRecursive(currentIndex+1, maxIndex, tileCounts.removeClay(), nextState));
+				}
+			}
+			if (tileCounts.wood > 0)
+			{
+				Board? nextState = getNextValidState(Tile.WOOD, nextCoordinate, currentState);
+				if (nextState != null)
+				{
+					toReturn.AddRange(getBiomeConfigurationsRecursive(currentIndex + 1, maxIndex, tileCounts.removeWood(), nextState));
+				}
+			}
+			if (tileCounts.wheat > 0)
+			{
+				Board? nextState = getNextValidState(Tile.WHEAT, nextCoordinate, currentState);
+				if (nextState != null)
+				{
+					toReturn.AddRange(getBiomeConfigurationsRecursive(currentIndex + 1, maxIndex, tileCounts.removeWheat(), nextState));
+				}
+			}
+			if (tileCounts.sheep > 0)
+			{
+				Board? nextState = getNextValidState(Tile.SHEEP, nextCoordinate, currentState);
+				if (nextState != null)
+				{
+					toReturn.AddRange(getBiomeConfigurationsRecursive(currentIndex + 1, maxIndex, tileCounts.removeSheep(), nextState));
+				}
+			}
+			if (tileCounts.stone > 0)
+			{
+				Board? nextState = getNextValidState(Tile.STONE, nextCoordinate, currentState);
+				if (nextState != null)
+				{
+					toReturn.AddRange(getBiomeConfigurationsRecursive(currentIndex + 1, maxIndex, tileCounts.removeStone(), nextState));
+				}
+			}
+			if (tileCounts.desert > 0)
+			{
+				Board? nextState = getNextValidState(Tile.DESERT, nextCoordinate, currentState);
+				if (nextState != null)
+				{
+					toReturn.AddRange(getBiomeConfigurationsRecursive(currentIndex + 1, maxIndex, tileCounts.removeDesert(), nextState));
+				}
+			}
+
+			return toReturn;
+		}
 	}
 
 	public class TileCounts
